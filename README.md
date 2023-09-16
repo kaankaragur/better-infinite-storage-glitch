@@ -18,6 +18,6 @@ It assigns random RGB numbers for base64 characters and uses AI to make colors u
 
 # Most importantly:
 
-All for educational purposes, that was a fun project. Also, that was fun.
+All for educational purposes, that was a experimental project. Also, that was fun.
 Please use it ethically.
 
