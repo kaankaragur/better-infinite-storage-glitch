@@ -1,35 +1,35 @@
 import cv2
 import os
 
-# Directory containing PNG images
-image_dir = 'encodedPhotos/'
+# Input video file name
+input_video = 'output.mkv'  # Replace with the name of your video file
 
-# Output video file name
-output_video = 'output.mp4'
+# Output directory for frames
+output_dir = 'output_frames/'  # Create this directory if it doesn't exist
 
-# Get the list of PNG files in the directory
-image_files = [os.path.join(image_dir, file) for file in os.listdir(image_dir) if file.endswith('.png')]
+# Create the output directory if it doesn't exist
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
 
-# Check if there are any image files
-if not image_files:
-    print("No PNG images found in the directory.")
-    exit()
+# Open the video file for reading
+cap = cv2.VideoCapture(input_video)
 
-# Read the first image to get dimensions
-first_image = cv2.imread(image_files[0])
-height, width, layers = first_image.shape
+# Initialize frame count
+frame_count = 0
 
-# Define the codec and create a VideoWriter object
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')  # Use the appropriate codec for your desired output format
-video = cv2.VideoWriter(output_video, fourcc, 60, (width, height), isColor=True)
-cv2.VideoWriter()
-# Iterate through the image files and add them to the video
-for image_file in image_files:
-    frame = cv2.imread(image_file)
-    rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-    video.write(rgb_image)
+# Read frames from the video and save them as individual images
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    
+    # Save the frame as an image in the output directory
+    frame_filename = os.path.join(output_dir, f'frame_{frame_count:04d}.png')
+    cv2.imwrite(frame_filename, frame)
+    
+    frame_count += 1
 
-# Release the video writer
-video.release()
+# Release the video capture object
+cap.release()
 
-print(f"Video saved as '{output_video}'")
+print(f'{frame_count} frames extracted and saved in {output_dir}')
