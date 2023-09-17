@@ -6,8 +6,6 @@ import json
 def convert_base64(location):
     with open(location, "rb") as f:
         content = f.read()
-        print(base64.b64encode(content).decode("utf-8"))
-        print("returned")
         return base64.b64encode(content).decode("utf-8")
 
 def calculateResolution(lenght):
@@ -26,7 +24,8 @@ def calculateResolution(lenght):
 inLoc = input("[IN] Please enter the location of file: ")
 print("[PROG] Converting to Base64...")
 base64data = convert_base64(inLoc)
-print(base64data)
+with open("encodedbase64.txt", "w") as decoded_file:
+    decoded_file.write(base64data)
 print("[PROG] Importing Image Data...")
 loaded_data = None
 with open("defaultAssignment.json", "r") as json_file:
@@ -39,8 +38,8 @@ currentCharacter = 0
 
 while currentCharacter < len(base64data) or breaked == True:
     
-    width = calculateResolution(len(base64data))[0]
-    height = calculateResolution(len(base64data))[1]
+    width = 1920#calculateResolution(len(base64data))[0]
+    height = 1080#calculateResolution(len(base64data))[1]
     image = Image.new("RGB", (width, height), "black")
     for y in range(height):
         if breaked == True:
@@ -50,8 +49,13 @@ while currentCharacter < len(base64data) or breaked == True:
                 breaked = True
             if breaked == True:
                 break
-            image.putpixel((x,y),tuple(loaded_data[base64data[currentCharacter]][1]))
-            currentCharacter += 1
+            try:
+                image.putpixel((x,y),tuple(loaded_data[base64data[currentCharacter:currentCharacter+2]][1]))
+                currentCharacter += 2
+            except:
+                image.putpixel((x,y),tuple(loaded_data[base64data[currentCharacter]][1]))
+                print("[ERR] 2 Digit Not Found.")
+                currentCharacter += 1
     image.save(f"encodedPhotos/frame_{frame_count:04d}.png")
     if not breaked:
         frame_count += 1
