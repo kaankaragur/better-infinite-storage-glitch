@@ -2,6 +2,8 @@
 
 Here is a general summary of this repository.
 
+### Currently files are encoded 2x bigger.
+
 ## First of all, this is a remake.
 
 Big shoutout to the [Owner of The Idea](https://github.com/DvorakDwarf/Infinite-Storage-Glitch) for the beautiful idea.
