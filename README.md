@@ -2,7 +2,7 @@
 
 Here is a general summary of this repository.
 
-### Currently files are encoded 2x bigger.
+### Currently files are encoded 2x bigger. (1.5x with new update)
 
 ## First of all, this is a remake.
 
